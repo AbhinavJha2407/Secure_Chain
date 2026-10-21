@@ -1,0 +1,39 @@
+name: 'SecureChain Security Gate'
+description: 'Generates an SBOM, correlates vulnerabilities, detects malicious packages, and enforces a security gate before your build proceeds.'
+author: 'SecureChain'
+
+inputs:
+  api-url:
+    description: 'Base URL of your SecureChain instance'
+    required: true
+  api-key:
+    description: 'Per-repository CI API key (store as a GitHub Actions secret)'
+    required: true
+  manifest-path:
+    description: 'Path to package.json'
+    required: false
+    default: 'package.json'
+  ci-config-path:
+    description: 'Path to this workflow file, for build-script integrity hashing'
+    required: false
+    default: '.github/workflows/ci.yml'
+  ci-baseline-hash:
+    description: 'Approved SHA-256 hash of the CI config file (omit on first run to set baseline manually)'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run SecureChain scan
+      shell: bash
+      run: |
+        node "${{ github.action_path }}/../../../bin/securechain-cli.js" \
+          --api-url "${{ inputs.api-url }}" \
+          --api-key "${{ inputs.api-key }}" \
+          --manifest "${{ inputs.manifest-path }}" \
+          --ci-config "${{ inputs.ci-config-path }}" \
+          ${{ inputs.ci-baseline-hash && format('--ci-baseline-hash {0}', inputs.ci-baseline-hash) || '' }}
+
+branding:
+  icon: 'shield'
+  color: 'blue'

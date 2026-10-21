@@ -1,0 +1,51 @@
+{
+  "ecosystem": "maven",
+  "model_type": "RandomForestSpecialist",
+  "trained_at": "2026-10-08T16:23:12.937875Z",
+  "training_samples": 5743,
+  "test_samples": 1436,
+  "accuracy": 0.8865,
+  "roc_auc": 0.6484,
+  "n_estimators": 200,
+  "feature_names": [
+    "source_ghsa",
+    "source_cve",
+    "ref_count",
+    "has_web",
+    "has_fix_version",
+    "has_cve_alias",
+    "sev_count",
+    "cvss_score",
+    "summary_len",
+    "details_len",
+    "has_exec_keyword",
+    "has_crypto_keyword",
+    "has_steal_keyword",
+    "has_inject_keyword"
+  ],
+  "feature_importances": {
+    "source_ghsa": 0.001108,
+    "source_cve": 0.0,
+    "ref_count": 0.149154,
+    "has_web": 0.002318,
+    "has_fix_version": 0.021777,
+    "has_cve_alias": 0.010234,
+    "sev_count": 0.007292,
+    "cvss_score": 0.007802,
+    "summary_len": 0.305487,
+    "details_len": 0.403139,
+    "has_exec_keyword": 0.061181,
+    "has_crypto_keyword": 0.0,
+    "has_steal_keyword": 0.010429,
+    "has_inject_keyword": 0.02008
+  },
+  "thresholds": {
+    "malicious": 0.8,
+    "suspicious": 0.5
+  },
+  "label_map": {
+    "0": "vulnerability",
+    "1": "malicious"
+  },
+  "source": "Kaggle OSV.dev MAVEN dataset export"
+}

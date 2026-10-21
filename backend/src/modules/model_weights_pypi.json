@@ -1,0 +1,51 @@
+{
+  "ecosystem": "pypi",
+  "model_type": "RandomForestSpecialist",
+  "trained_at": "2026-10-08T16:22:48.555577Z",
+  "training_samples": 20911,
+  "test_samples": 5228,
+  "accuracy": 0.9466,
+  "roc_auc": 0.9887,
+  "n_estimators": 200,
+  "feature_names": [
+    "source_ghsa",
+    "source_cve",
+    "ref_count",
+    "has_web",
+    "has_fix_version",
+    "has_cve_alias",
+    "sev_count",
+    "cvss_score",
+    "summary_len",
+    "details_len",
+    "has_exec_keyword",
+    "has_crypto_keyword",
+    "has_steal_keyword",
+    "has_inject_keyword"
+  ],
+  "feature_importances": {
+    "source_ghsa": 0.024948,
+    "source_cve": 0.0,
+    "ref_count": 0.14092,
+    "has_web": 0.027498,
+    "has_fix_version": 0.155157,
+    "has_cve_alias": 0.255807,
+    "sev_count": 0.100165,
+    "cvss_score": 0.079452,
+    "summary_len": 0.130987,
+    "details_len": 0.058374,
+    "has_exec_keyword": 0.019642,
+    "has_crypto_keyword": 1e-05,
+    "has_steal_keyword": 0.002711,
+    "has_inject_keyword": 0.004329
+  },
+  "thresholds": {
+    "malicious": 0.8,
+    "suspicious": 0.5
+  },
+  "label_map": {
+    "0": "vulnerability",
+    "1": "malicious"
+  },
+  "source": "Kaggle OSV.dev PYPI dataset export"
+}

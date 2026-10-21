@@ -1,0 +1,56 @@
+{
+  "ecosystem": "npm",
+  "model_type": "BalancedRandomForestSpecialist",
+  "sampling_strategy": "balanced_stratified_resampling",
+  "trained_at": "2026-10-11T12:00:00.000000Z",
+  "training_samples": 184132,
+  "test_samples": 46034,
+  "accuracy": 0.9685,
+  "roc_auc": 0.9892,
+  "pr_auc": 0.9640,
+  "precision": 0.9520,
+  "recall": 0.9610,
+  "f1_score": 0.9565,
+  "n_estimators": 200,
+  "feature_names": [
+    "source_ghsa",
+    "source_cve",
+    "ref_count",
+    "has_web",
+    "has_fix_version",
+    "has_cve_alias",
+    "sev_count",
+    "cvss_score",
+    "summary_len",
+    "details_len",
+    "has_exec_keyword",
+    "has_crypto_keyword",
+    "has_steal_keyword",
+    "has_inject_keyword"
+  ],
+  "feature_importances": {
+    "source_ghsa": 0.279147,
+    "source_cve": 0.0,
+    "ref_count": 0.159155,
+    "has_web": 0.177524,
+    "has_fix_version": 0.046512,
+    "has_cve_alias": 0.056703,
+    "sev_count": 0.102613,
+    "cvss_score": 0.121824,
+    "summary_len": 0.031148,
+    "details_len": 0.009838,
+    "has_exec_keyword": 0.001406,
+    "has_crypto_keyword": 0.0,
+    "has_steal_keyword": 0.01266,
+    "has_inject_keyword": 0.001471
+  },
+  "thresholds": {
+    "malicious": 0.85,
+    "suspicious": 0.60
+  },
+  "label_map": {
+    "0": "vulnerability (CVE security flaw in legitimate package)",
+    "1": "malicious (intentional supply chain attack or trojan)"
+  },
+  "source": "Balanced OSV.dev continuous & semantic dataset export"
+}

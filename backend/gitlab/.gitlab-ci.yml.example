@@ -1,0 +1,37 @@
+# Example .gitlab-ci.yml snippet. Copy this stage into your project's
+# pipeline. Set SECURECHAIN_API_URL and SECURECHAIN_API_KEY as masked
+# CI/CD variables in GitLab project settings.
+
+stages:
+  - install
+  - security
+  - test
+
+install:
+  stage: install
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+      - package.json
+
+securechain_gate:
+  stage: security
+  needs: ['install']
+  script:
+    # The CLI is plain Node.js — no install step needed beyond Node itself.
+    - curl -sO $SECURECHAIN_API_URL/static/securechain-cli.js  # or vendor bin/securechain-cli.js directly in your repo
+    - node securechain-cli.js
+        --api-url "$SECURECHAIN_API_URL"
+        --api-key "$SECURECHAIN_API_KEY"
+        --manifest package.json
+        --ci-config .gitlab-ci.yml
+  # A non-zero exit from the CLI (FAILED/BLOCKED verdict) fails this job,
+  # which blocks the `test` stage from running per GitLab's stage DAG.
+
+test:
+  stage: test
+  needs: ['securechain_gate']
+  script:
+    - npm test

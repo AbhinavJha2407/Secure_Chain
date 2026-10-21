@@ -1,0 +1,16 @@
+node_modules/
+.env
+*.log
+
+# --- AI Tooling & GSD Framework Folders ---
+.agent/
+.agents/
+.gemini/
+.gsd/
+GSD-STYLE.md
+PROJECT_RULES.md
+project_extract.md
+*.mp4
+__pycache__/
+*.pyc
+dist/

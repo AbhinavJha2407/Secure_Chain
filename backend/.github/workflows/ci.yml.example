@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install
+
+      # --- SecureChain security gate ---
+      # Runs after install (matches report 3.2.4: "plugin runs
+      # post-dependency-installation"). The job fails here if SecureChain
+      # returns FAILED or BLOCKED — npm test below never runs.
+      - name: SecureChain security gate
+        uses: ./.github/actions/securechain-scan
+        with:
+          api-url: ${{ secrets.SECURECHAIN_API_URL }}
+          api-key: ${{ secrets.SECURECHAIN_API_KEY }}
+
+      - run: npm test

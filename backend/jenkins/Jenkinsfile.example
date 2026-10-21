@@ -1,0 +1,52 @@
+// Example Jenkinsfile (Declarative Pipeline).
+// Store SECURECHAIN_API_URL and SECURECHAIN_API_KEY as Jenkins Credentials
+// (Secret text) and reference them via the `credentials()` helper below.
+
+pipeline {
+    agent any
+
+    environment {
+        SECURECHAIN_API_URL = credentials('securechain-api-url')
+        SECURECHAIN_API_KEY = credentials('securechain-api-key')
+    }
+
+    stages {
+        stage('Install') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('SecureChain Security Gate') {
+            steps {
+                // CLI exits 1 on FAILED/BLOCKED, which Jenkins treats as a
+                // failed shell step and halts the pipeline before Test/Deploy.
+                sh '''
+                  node bin/securechain-cli.js \
+                    --api-url "$SECURECHAIN_API_URL" \
+                    --api-key "$SECURECHAIN_API_KEY" \
+                    --manifest package.json \
+                    --ci-config Jenkinsfile
+                '''
+            }
+            post {
+                always {
+                    // Report the build outcome back to SecureChain's dashboard
+                    // (separate from the pass/fail gate result above).
+                    sh '''
+                      curl -s -X POST "$SECURECHAIN_API_URL/api/cicd/webhooks/jenkins" \
+                        -H "Authorization: Bearer $SECURECHAIN_API_KEY" \
+                        -H "Content-Type: application/json" \
+                        -d "{\\"buildNumber\\": \\"${BUILD_NUMBER}\\", \\"result\\": \\"${currentBuild.currentResult}\\", \\"jobUrl\\": \\"${BUILD_URL}\\"}"
+                    '''
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'npm test'
+            }
+        }
+    }
+}
