@@ -1,4 +1,14 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+// Base API URL for standard HTTP requests
+export const API_BASE = import.meta.env.VITE_API_URL || '/api';
+
+// WebSocket URL for the threat feed
+export function wsThreatFeedUrl() {
+  if (import.meta.env.VITE_WS_URL) {
+    return import.meta.env.VITE_WS_URL;
+  }
+  const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${wsProtocol}//${window.location.host}/ws/threat-feed`;
+}
 
 export function getToken() {
   return localStorage.getItem('token') || localStorage.getItem('securechain_token');
