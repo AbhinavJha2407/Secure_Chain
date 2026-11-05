@@ -210,9 +210,6 @@ export const api = {
   adminAuditLog: (params = {}) => request(`/api/admin/audit-log?${new URLSearchParams(params)}`),
 };
 
-export function wsThreatFeedUrl() {
-  const base = API_BASE.replace(/^http/, 'ws');
-  return `${base}/ws/threat-feed`;
-}
 
-export { API_BASE };
+
+
