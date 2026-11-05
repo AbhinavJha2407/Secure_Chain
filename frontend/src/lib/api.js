@@ -1,13 +1,8 @@
-// Base API URL for standard HTTP requests
-export const API_BASE = import.meta.env.VITE_API_URL || '/api';
+export const API_BASE = import.meta.env.VITE_API_URL || 'https://securechain-api-alpha-cee8fxcjffawh3hz.centralindia-01.azurewebsites.net';
 
-// WebSocket URL for the threat feed
 export function wsThreatFeedUrl() {
-  if (import.meta.env.VITE_WS_URL) {
-    return import.meta.env.VITE_WS_URL;
-  }
-  const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  return `${wsProtocol}//${window.location.host}/ws/threat-feed`;
+  if (import.meta.env.VITE_WS_URL) return import.meta.env.VITE_WS_URL;
+  return 'wss://securechain-api.azurewebsites.net/ws/threat-feed';
 }
 
 export function getToken() {
